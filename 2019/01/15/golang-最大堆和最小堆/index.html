@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>golang 最大堆和最小堆 | 杨家浩</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="最小堆和最大堆 golang实现二叉堆是一种特殊的堆，它满足两个性质：结构性和堆序性  结构性：二叉堆是一颗完全二叉树，完全二叉树可以用一个数组表示，不需要指针，所以效率更高。当用数组表示时，数组中任一位置i上的元素，其左儿子在位置2i上，右儿子在位置(2i+ 1)上，其父节点在位置(i/2)上。 堆序性质：堆的最小值或最大值在根节点上，所以可以快速找到最大值或最小值。  最大堆和最小堆是二叉堆的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="golang 最大堆和最小堆">
+<meta property="og:url" content="http://yoursite.com/2019/01/15/golang-最大堆和最小堆/index.html">
+<meta property="og:site_name" content="杨家浩">
+<meta property="og:description" content="最小堆和最大堆 golang实现二叉堆是一种特殊的堆，它满足两个性质：结构性和堆序性  结构性：二叉堆是一颗完全二叉树，完全二叉树可以用一个数组表示，不需要指针，所以效率更高。当用数组表示时，数组中任一位置i上的元素，其左儿子在位置2i上，右儿子在位置(2i+ 1)上，其父节点在位置(i/2)上。 堆序性质：堆的最小值或最大值在根节点上，所以可以快速找到最大值或最小值。  最大堆和最小堆是二叉堆的">
+<meta property="og:locale" content="english">
+<meta property="og:updated_time" content="2019-01-17T08:19:12.749Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="golang 最大堆和最小堆">
+<meta name="twitter:description" content="最小堆和最大堆 golang实现二叉堆是一种特殊的堆，它满足两个性质：结构性和堆序性  结构性：二叉堆是一颗完全二叉树，完全二叉树可以用一个数组表示，不需要指针，所以效率更高。当用数组表示时，数组中任一位置i上的元素，其左儿子在位置2i上，右儿子在位置(2i+ 1)上，其父节点在位置(i/2)上。 堆序性质：堆的最小值或最大值在根节点上，所以可以快速找到最大值或最小值。  最大堆和最小堆是二叉堆的">
+    
+        <link rel="alternate" type="application/atom+xml" title="杨家浩" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Yangjiahao</h5>
+          <a href="mailto:yangjiahao106@foxmail.com" title="yangjiahao106@foxmail.com" class="mail">yangjiahao106@foxmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories">
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yangjiahao106" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/custom">
+                <i class="icon icon-lg icon-link"></i>
+                Other
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">golang 最大堆和最小堆</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">golang 最大堆和最小堆</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-01-15T14:32:24.000Z" itemprop="datePublished" class="page-time">
+  2019-01-15
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#最小堆和最大堆-golang实现"><span class="post-toc-number">1.</span> <span class="post-toc-text">最小堆和最大堆 golang实现</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#最小堆"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">最小堆</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#定义构造方法"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">定义构造方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#插入"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">插入</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#删除最小值"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">删除最小值</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#其他方法"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">其他方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#下面介绍container-heap包-和最大堆的实现"><span class="post-toc-number">2.</span> <span class="post-toc-text">下面介绍container/heap包 和最大堆的实现</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#heap源码中定义了一个Interface-的接口，此接口一共包含五个方法，我们定义一个实现此接口的类就实现了一个二叉堆"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">heap源码中定义了一个Interface 的接口，此接口一共包含五个方法，我们定义一个实现此接口的类就实现了一个二叉堆</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#定义一个最大堆，并实现heap-Interface-接口"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">定义一个最大堆，并实现heap.Interface 接口</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#测试最大堆"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">测试最大堆</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-golang-最大堆和最小堆" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">golang 最大堆和最小堆</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-01-15 22:32:24" datetime="2019-01-15T14:32:24.000Z" itemprop="datePublished">2019-01-15</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="最小堆和最大堆-golang实现"><a href="#最小堆和最大堆-golang实现" class="headerlink" title="最小堆和最大堆 golang实现"></a>最小堆和最大堆 golang实现</h1><p>二叉堆是一种特殊的堆，它满足两个性质：结构性和堆序性</p>
+<ul>
+<li>结构性：二叉堆是一颗完全二叉树，完全二叉树可以用一个数组表示，不需要指针，所以效率更高。当用数组表示时，数组中任一位置i上的元素，其左儿子在位置2i上，右儿子在位置(2i+ 1)上，其父节点在位置(i/2)上。</li>
+<li>堆序性质：堆的最小值或最大值在根节点上，所以可以快速找到最大值或最小值。</li>
+</ul>
+<p>最大堆和最小堆是二叉堆的两种形式。<br>-最大堆：根结点的键值是所有堆结点键值中最大者的堆。<br>-最小堆：根结点的键值是所有堆结点键值中最小者的堆。</p>
+<h2 id="最小堆"><a href="#最小堆" class="headerlink" title="最小堆"></a>最小堆</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> MinHeap <span class="keyword">struct</span> &#123;</span><br><span class="line">    Element []<span class="keyword">int</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="定义构造方法"><a href="#定义构造方法" class="headerlink" title="定义构造方法"></a>定义构造方法</h2><p>数组中第一个元素不使用，存放一个小于堆中任何数字的值用于结束循环。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MinHeap构造方法</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewMinHeap</span><span class="params">()</span> *<span class="title">MinHeap</span></span> &#123;</span><br><span class="line">    <span class="comment">// 第一个元素仅用于结束insert中的 for 循环</span></span><br><span class="line">    h := &amp;MinHeap&#123;Element: []<span class="keyword">int</span>&#123;math.MinInt64&#125;&#125;</span><br><span class="line">    <span class="keyword">return</span> h</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h2><p>插入元素就直接将元素增加到堆的末尾，然后进行上浮操作，使二叉堆有序。<br>如果上浮一直到根，时间复杂度为O(log N)，但这种上浮操作一般结束的要早。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 插入数字,插入数字需要保证堆的性质</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(H *MinHeap)</span> <span class="title">Insert</span><span class="params">(v <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">    H.Element = <span class="built_in">append</span>(H.Element, v)</span><br><span class="line">    i := <span class="built_in">len</span>(H.Element) - <span class="number">1</span></span><br><span class="line">    <span class="comment">// 上浮</span></span><br><span class="line">    <span class="keyword">for</span> ; H.Element[i/<span class="number">2</span>] &gt; v; i /= <span class="number">2</span> &#123;</span><br><span class="line">        H.Element[i] = H.Element[i/<span class="number">2</span>]</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    H.Element[i] = v</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="删除最小值"><a href="#删除最小值" class="headerlink" title="删除最小值"></a>删除最小值</h2><p>删除最大元素就直接从二叉堆顶端删除，然后进行下沉操作。最坏时间复杂度同样为O(log N)</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 删除并返回最小值</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(H *MinHeap)</span> <span class="title">DeleteMin</span><span class="params">()</span> <span class="params">(<span class="keyword">int</span>, error)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(H.Element) &lt;= <span class="number">1</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>, fmt.Errorf(<span class="string">"MinHeap is empty"</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	minElement := H.Element[<span class="number">1</span>]</span><br><span class="line">	lastElement := H.Element[<span class="built_in">len</span>(H.Element)<span class="number">-1</span>]</span><br><span class="line">	<span class="keyword">var</span> i, child <span class="keyword">int</span></span><br><span class="line">	<span class="keyword">for</span> i = <span class="number">1</span>; i*<span class="number">2</span> &lt; <span class="built_in">len</span>(H.Element); i = child &#123;</span><br><span class="line">		child = i * <span class="number">2</span></span><br><span class="line">		<span class="keyword">if</span> child &lt; <span class="built_in">len</span>(H.Element)<span class="number">-1</span> &amp;&amp; H.Element[child+<span class="number">1</span>] &lt; H.Element[child] &#123;</span><br><span class="line">			child ++</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// 下滤一层</span></span><br><span class="line">		<span class="keyword">if</span> lastElement &gt; H.Element[child] &#123;</span><br><span class="line">			H.Element[i] = H.Element[child]</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	H.Element[i] = lastElement</span><br><span class="line">	H.Element = H.Element[:<span class="built_in">len</span>(H.Element)<span class="number">-1</span>]</span><br><span class="line">	<span class="keyword">return</span> minElement, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="其他方法"><a href="#其他方法" class="headerlink" title="其他方法"></a>其他方法</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 堆的大小</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(H *MinHeap)</span> <span class="title">Length</span><span class="params">()</span> <span class="title">int</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">len</span>(H.Element) - <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取最小堆的最小值</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(H *MinHeap)</span> <span class="title">Min</span><span class="params">()</span> <span class="params">(<span class="keyword">int</span>, error)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(H.Element) &gt; <span class="number">1</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> H.Element[<span class="number">1</span>], <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>, fmt.Errorf(<span class="string">"heap is empty"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// MinHeap格式化输出</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(H *MinHeap)</span> <span class="title">String</span><span class="params">()</span> <span class="title">string</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> fmt.Sprintf(<span class="string">"%v"</span>, H.Element[<span class="number">1</span>:])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="下面介绍container-heap包-和最大堆的实现"><a href="#下面介绍container-heap包-和最大堆的实现" class="headerlink" title="下面介绍container/heap包 和最大堆的实现"></a>下面介绍container/heap包 和最大堆的实现</h1><h2 id="heap源码中定义了一个Interface-的接口，此接口一共包含五个方法，我们定义一个实现此接口的类就实现了一个二叉堆"><a href="#heap源码中定义了一个Interface-的接口，此接口一共包含五个方法，我们定义一个实现此接口的类就实现了一个二叉堆" class="headerlink" title="heap源码中定义了一个Interface 的接口，此接口一共包含五个方法，我们定义一个实现此接口的类就实现了一个二叉堆"></a>heap源码中定义了一个Interface 的接口，此接口一共包含五个方法，我们定义一个实现此接口的类就实现了一个二叉堆</h2><p>container/heap/heap.go<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Interface <span class="keyword">interface</span> &#123;</span><br><span class="line">	sort.Interface</span><br><span class="line">	Push(x <span class="keyword">interface</span>&#123;&#125;) <span class="comment">// add x as element Len()</span></span><br><span class="line">	Pop() <span class="keyword">interface</span>&#123;&#125;   <span class="comment">// remove and return element Len() - 1.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>sort.go<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Interface <span class="keyword">interface</span> &#123;</span><br><span class="line">	<span class="comment">// Len is the number of elements in the collection.</span></span><br><span class="line">	Len() <span class="keyword">int</span></span><br><span class="line">	<span class="comment">// Less reports whether the element with</span></span><br><span class="line">	<span class="comment">// index i should sort before the element with index j.</span></span><br><span class="line">	Less(i, j <span class="keyword">int</span>) <span class="keyword">bool</span></span><br><span class="line">	<span class="comment">// Swap swaps the elements with indexes i and j.</span></span><br><span class="line">	Swap(i, j <span class="keyword">int</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="定义一个最大堆，并实现heap-Interface-接口"><a href="#定义一个最大堆，并实现heap-Interface-接口" class="headerlink" title="定义一个最大堆，并实现heap.Interface 接口"></a>定义一个最大堆，并实现heap.Interface 接口</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> MaxHeap []<span class="keyword">int</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(h MaxHeap)</span> <span class="title">Len</span><span class="params">()</span> <span class="title">int</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">len</span>(h)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(h MaxHeap)</span> <span class="title">Less</span><span class="params">(i, j <span class="keyword">int</span>)</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">	<span class="comment">// 由于是最大堆，所以使用大于号</span></span><br><span class="line">	<span class="keyword">return</span> h[i] &gt; h[j]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(h *MaxHeap)</span> <span class="title">Swap</span><span class="params">(i, j <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">	(*h)[i], (*h)[j] = (*h)[j], (*h)[i]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(h *MaxHeap)</span> <span class="title">Push</span><span class="params">(x <span class="keyword">interface</span>&#123;&#125;)</span></span> &#123;</span><br><span class="line">	*h = <span class="built_in">append</span>(*h, x.(<span class="keyword">int</span>))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Pop 弹出最后一个元素</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(h *MaxHeap)</span> <span class="title">Pop</span><span class="params">()</span> <span class="title">interface</span></span>&#123;&#125;&#123;</span><br><span class="line">	res := (*h)[<span class="built_in">len</span>(*h)<span class="number">-1</span>]</span><br><span class="line">	*h = (*h)[:<span class="built_in">len</span>(*h)<span class="number">-1</span>]</span><br><span class="line">	<span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="测试最大堆"><a href="#测试最大堆" class="headerlink" title="测试最大堆"></a>测试最大堆</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	h := <span class="built_in">make</span>(MaxHeap, <span class="number">0</span>)</span><br><span class="line">	heap.Init(&amp;h)</span><br><span class="line"></span><br><span class="line">	heap.Push(&amp;h, <span class="number">8</span>)</span><br><span class="line">	heap.Push(&amp;h, <span class="number">1</span>)</span><br><span class="line">	heap.Push(&amp;h, <span class="number">4</span>)</span><br><span class="line">	heap.Push(&amp;h, <span class="number">5</span>)</span><br><span class="line">	heap.Push(&amp;h, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">	fmt.Println(heap.Pop(&amp;h))</span><br><span class="line">	fmt.Println(heap.Pop(&amp;h))</span><br><span class="line">	fmt.Println(heap.Pop(&amp;h))</span><br><span class="line">	fmt.Println(heap.Pop(&amp;h))</span><br><span class="line">	fmt.Println(heap.Pop(&amp;h))</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line"><span class="number">8</span></span><br><span class="line"><span class="number">5</span></span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-01-17T08:19:12.749Z" itemprop="dateUpdated">2019-01-17 16:19:12</time>
+</span><br>
+
+
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2019/01/15/golang-最大堆和最小堆/" target="_blank" rel="external">http://yoursite.com/2019/01/15/golang-最大堆和最小堆/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://yoursite.com">
+            <img src="/img/avatar.jpg" alt="Yangjiahao">
+            Yangjiahao
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/01/15/golang-最大堆和最小堆/&title=《golang 最大堆和最小堆》 — 杨家浩&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/01/15/golang-最大堆和最小堆/&title=《golang 最大堆和最小堆》 — 杨家浩&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/01/15/golang-最大堆和最小堆/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《golang 最大堆和最小堆》 — 杨家浩&url=http://yoursite.com/2019/01/15/golang-最大堆和最小堆/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/01/15/golang-最大堆和最小堆/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check" data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Yangjiahao &copy; 2015 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/01/15/golang-最大堆和最小堆/&title=《golang 最大堆和最小堆》 — 杨家浩&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/01/15/golang-最大堆和最小堆/&title=《golang 最大堆和最小堆》 — 杨家浩&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/01/15/golang-最大堆和最小堆/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《golang 最大堆和最小堆》 — 杨家浩&url=http://yoursite.com/2019/01/15/golang-最大堆和最小堆/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/01/15/golang-最大堆和最小堆/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACGklEQVR42u3aQW7DIBAF0Nz/0u62Upv4f6CVDI9VlMSGx2I0zPB6xeP6Mdr/f3/q3Rvy9w8ODAyMxzKujyP5z+eJ370n2aZiRgwMjAMYyfRJcBwLrMnnmzVjYGBgTFDb0ImBgYExz0jSu/ab5FcMDAyMvEA2n8a1KePiszgGBsYDGXnV/f8//0l/AwMD41GMqxxjTcpVB923M2JgYGzNyANc27DM3zkWcDEwMM5kJNcd2gsTq8JxdAzGwMDYlJGXvcbK+kmwbrfvFwwGBsbxjDxpyw+r8xfLih4sBgbGFox2yrWNxpnNwsDAOIGRFMhWJXxtEC9O4RgYGFsz8rRsVTAdSzFv3oOBgXE8Y1VJrm18FrNjYGBszVjVpGyLbmMp4024x8DAOJLRJoX5U2NN0Lp2iIGBsTWjeDhO49oLYXVbFAMD4wDGzMGyTe9mWg5TN0cwMDAeyKjF5VNtSW6sbYCBgbE3IwmXY0vJFzTWWrg5xGJgYGzNyFO6tVswsxEYGBhnMsbSuATTHlmL7zEwMA5jtAGxPQxHqV57eMbAwNiUcZWjTSXzxbVthptCGwYGxkaMsWbAWIAeg82U8zAwMHZi5EE2mXJ+L9s1YGBgnMMorjWUpbS2SNemkhgYGBh5U7NtA4wtFwMDA2OM0V6kaNsJ0TZhYGAcwMgLau3xsm0kJDwMDIzTGO3RMW8M5KW09tep/gYGBsaTGF+qMpNhRMzUowAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
