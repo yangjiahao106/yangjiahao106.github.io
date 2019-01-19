@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>使用快速排序解决TopK问题和数据流的中位数 | 杨家浩</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="使用快排思想解决TopK问题和数据流的中位数快速排序快速排序这里就不多介绍了，Partition函数为快速排序的核心函数，负责选择一个数字将比这个数字小的数字放到左边，大的数字放到右边，最后返回这个数字的下标，下面为使用golang 实现的代码。 123456789101112131415161718192021222324252627282930313233343536// 快速排序func Q">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用快速排序解决TopK问题和数据流的中位数">
+<meta property="og:url" content="http://yoursite.com/2019/01/19/使用快速排序解决TopK问题和数据流的中位数/index.html">
+<meta property="og:site_name" content="杨家浩">
+<meta property="og:description" content="使用快排思想解决TopK问题和数据流的中位数快速排序快速排序这里就不多介绍了，Partition函数为快速排序的核心函数，负责选择一个数字将比这个数字小的数字放到左边，大的数字放到右边，最后返回这个数字的下标，下面为使用golang 实现的代码。 123456789101112131415161718192021222324252627282930313233343536// 快速排序func Q">
+<meta property="og:locale" content="english">
+<meta property="og:updated_time" content="2019-01-19T14:46:53.860Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用快速排序解决TopK问题和数据流的中位数">
+<meta name="twitter:description" content="使用快排思想解决TopK问题和数据流的中位数快速排序快速排序这里就不多介绍了，Partition函数为快速排序的核心函数，负责选择一个数字将比这个数字小的数字放到左边，大的数字放到右边，最后返回这个数字的下标，下面为使用golang 实现的代码。 123456789101112131415161718192021222324252627282930313233343536// 快速排序func Q">
+    
+        <link rel="alternate" type="application/atom+xml" title="杨家浩" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Yangjiahao</h5>
+          <a href="mailto:yangjiahao106@foxmail.com" title="yangjiahao106@foxmail.com" class="mail">yangjiahao106@foxmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                Home
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories">
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yangjiahao106" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/custom">
+                <i class="icon icon-lg icon-link"></i>
+                Other
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">使用快速排序解决TopK问题和数据流的中位数</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">使用快速排序解决TopK问题和数据流的中位数</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-01-19T13:57:31.000Z" itemprop="datePublished" class="page-time">
+  2019-01-19
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#使用快排思想解决TopK问题和数据流的中位数"><span class="post-toc-number">1.</span> <span class="post-toc-text">使用快排思想解决TopK问题和数据流的中位数</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#快速排序"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">快速排序</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Top-K-问题：最大的K个数字"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">Top K 问题：最大的K个数字</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#无序数组的中位数"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">无序数组的中位数</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-使用快速排序解决TopK问题和数据流的中位数" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">使用快速排序解决TopK问题和数据流的中位数</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-01-19 21:57:31" datetime="2019-01-19T13:57:31.000Z" itemprop="datePublished">2019-01-19</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="使用快排思想解决TopK问题和数据流的中位数"><a href="#使用快排思想解决TopK问题和数据流的中位数" class="headerlink" title="使用快排思想解决TopK问题和数据流的中位数"></a>使用快排思想解决TopK问题和数据流的中位数</h1><h2 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h2><p>快速排序这里就不多介绍了，Partition函数为快速排序的核心函数，负责选择一个数字将比这个数字小的数字放到左边，大的数字放到右边，最后返回这个数字的下标，下面为使用golang 实现的代码。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 快速排序</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">QuickSort</span><span class="params">(nums []<span class="keyword">int</span>, start, end <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> start == end &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	index := Partition(nums, start, end)</span><br><span class="line">	<span class="keyword">if</span> index &gt; start &#123;</span><br><span class="line">		QuickSort(nums, start, index<span class="number">-1</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> index &lt; end &#123;</span><br><span class="line">		QuickSort(nums, index+<span class="number">1</span>, end)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Partition 函数用于快速排序</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Partition</span><span class="params">(nums []<span class="keyword">int</span>, start, end <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">	<span class="comment">//随机生成一个下标，此下标中的值作为中间值</span></span><br><span class="line">	<span class="keyword">if</span> start &gt;= end &#123;</span><br><span class="line">		<span class="keyword">return</span> start</span><br><span class="line">	&#125;</span><br><span class="line">	index := rand.Intn(end-start) + start</span><br><span class="line">	nums[index], nums[end] = nums[end], nums[index]</span><br><span class="line">	small := start</span><br><span class="line">	<span class="keyword">for</span> index = start; index &lt; end; index++ &#123;</span><br><span class="line">		<span class="keyword">if</span> nums[index] &gt; nums[end] &#123;</span><br><span class="line">			<span class="keyword">if</span> small != index &#123;</span><br><span class="line">				nums[index], nums[small] = nums[small], nums[index]</span><br><span class="line">			&#125;</span><br><span class="line">			small++</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//small++</span></span><br><span class="line">	nums[small], nums[end] = nums[end], nums[small]</span><br><span class="line">	<span class="comment">// 返回中间值的下标</span></span><br><span class="line">	<span class="keyword">return</span> small</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Top-K-问题：最大的K个数字"><a href="#Top-K-问题：最大的K个数字" class="headerlink" title="Top K 问题：最大的K个数字"></a>Top K 问题：最大的K个数字</h2><p>使用快速排序的分治思想可以将这个问题的时间复杂度降低到O(n)</p>
+<p><strong>减治法</strong> : 减治法比分治法效率更高，相比于分治法，减治法只需要解决分治之后其中一个<strong>子问题</strong>，而分治法需要解决分治后的所有子问题，所以它的时间复杂度为O(n)</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">TopK</span><span class="params">(nums []<span class="keyword">int</span>, k <span class="keyword">int</span>)</span> []<span class="title">int</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> nums == <span class="literal">nil</span> || <span class="built_in">len</span>(nums) ==<span class="number">0</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125; </span><br><span class="line">	start := <span class="number">0</span></span><br><span class="line">	end := <span class="built_in">len</span>(nums) <span class="number">-1</span></span><br><span class="line">	index := Partition(nums, start, end)</span><br><span class="line">	<span class="keyword">for</span> index != k<span class="number">-1</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> index &gt; k<span class="number">-1</span> &#123;</span><br><span class="line">			end = index<span class="number">-1</span></span><br><span class="line">			index = Partition(nums, start, end)</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			start = index + <span class="number">1</span></span><br><span class="line">			index = Partition(nums, start, end)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> nums[<span class="number">0</span>:k]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="无序数组的中位数"><a href="#无序数组的中位数" class="headerlink" title="无序数组的中位数"></a>无序数组的中位数</h2><p>如果数组的个数为奇数则中位数为排序后位于中间的那个数字， 如果个数为偶数，则中位数为排序后中间两个数字的平均值，所以要分两种情况。</p>
+<p>此问题同样可以使用快排的partition函数解决，时间复杂度为O(n)</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">GetMedian</span><span class="params">(nums []<span class="keyword">int</span>)</span> <span class="title">float64</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> nums == <span class="literal">nil</span> || <span class="built_in">len</span>(nums) == <span class="number">0</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(nums)&amp;<span class="number">1</span> == <span class="number">1</span> &#123; <span class="comment">// 长度为奇数</span></span><br><span class="line">		mid := <span class="built_in">len</span>(nums) / <span class="number">2</span></span><br><span class="line">		index := Partition(nums, <span class="number">0</span>, <span class="built_in">len</span>(nums)<span class="number">-1</span>)</span><br><span class="line">		<span class="keyword">for</span> index != mid &#123;</span><br><span class="line">			<span class="keyword">if</span> index &lt; mid &#123;</span><br><span class="line">				index = Partition(nums, index+<span class="number">1</span>, <span class="built_in">len</span>(nums)<span class="number">-1</span>)</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				index = Partition(nums, <span class="number">0</span>, index<span class="number">-1</span>)</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">float64</span>(nums[mid])</span><br><span class="line">        </span><br><span class="line">	&#125; <span class="keyword">else</span> &#123; <span class="comment">// 长度为偶数</span></span><br><span class="line">		midR := <span class="built_in">len</span>(nums) / <span class="number">2</span></span><br><span class="line">		midL := (<span class="built_in">len</span>(nums) / <span class="number">2</span>) - <span class="number">1</span></span><br><span class="line">		res := <span class="number">0</span></span><br><span class="line">		findL, findR := <span class="literal">false</span>, <span class="literal">false</span></span><br><span class="line">		start := <span class="number">0</span></span><br><span class="line">		end := <span class="built_in">len</span>(nums) - <span class="number">1</span></span><br><span class="line">		index := Partition(nums, <span class="number">0</span>, <span class="built_in">len</span>(nums)<span class="number">-1</span>)</span><br><span class="line">		<span class="keyword">for</span> !findL || !findR &#123;</span><br><span class="line">			<span class="keyword">if</span> index &lt; midL &#123;</span><br><span class="line">				start = index + <span class="number">1</span></span><br><span class="line">				index = Partition(nums, start, end)</span><br><span class="line">			&#125; <span class="keyword">else</span> <span class="keyword">if</span> index &gt; midR &#123;</span><br><span class="line">				end = index - <span class="number">1</span></span><br><span class="line">				index = Partition(nums, start, end)</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> index == midL &#123;</span><br><span class="line">				res += nums[midL]</span><br><span class="line">				findL = <span class="literal">true</span></span><br><span class="line">				start = index + <span class="number">1</span></span><br><span class="line">				fmt.Println(start, end, midL)</span><br><span class="line">				index = Partition(nums, start, end)</span><br><span class="line">			&#125; <span class="keyword">else</span> <span class="keyword">if</span> index == midR &#123;</span><br><span class="line">				res += nums[midR]</span><br><span class="line">				findR = <span class="literal">true</span></span><br><span class="line">				end = index - <span class="number">1</span></span><br><span class="line">				fmt.Println(start, end)</span><br><span class="line">				index = Partition(nums, start, end)</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">float64</span>(res) / <span class="number">2</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-01-19T14:46:53.860Z" itemprop="dateUpdated">2019-01-19 22:46:53</time>
+</span><br>
+
+
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2019/01/19/使用快速排序解决TopK问题和数据流的中位数/" target="_blank" rel="external">http://yoursite.com/2019/01/19/使用快速排序解决TopK问题和数据流的中位数/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="http://yoursite.com">
+            <img src="/img/avatar.jpg" alt="Yangjiahao">
+            Yangjiahao
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/01/19/使用快速排序解决TopK问题和数据流的中位数/&title=《使用快速排序解决TopK问题和数据流的中位数》 — 杨家浩&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/01/19/使用快速排序解决TopK问题和数据流的中位数/&title=《使用快速排序解决TopK问题和数据流的中位数》 — 杨家浩&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/01/19/使用快速排序解决TopK问题和数据流的中位数/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《使用快速排序解决TopK问题和数据流的中位数》 — 杨家浩&url=http://yoursite.com/2019/01/19/使用快速排序解决TopK问题和数据流的中位数/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/01/19/使用快速排序解决TopK问题和数据流的中位数/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/01/15/golang-最大堆和最小堆/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">golang 最大堆和最小堆</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check" data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>Yangjiahao &copy; 2015 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/01/19/使用快速排序解决TopK问题和数据流的中位数/&title=《使用快速排序解决TopK问题和数据流的中位数》 — 杨家浩&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/01/19/使用快速排序解决TopK问题和数据流的中位数/&title=《使用快速排序解决TopK问题和数据流的中位数》 — 杨家浩&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/01/19/使用快速排序解决TopK问题和数据流的中位数/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《使用快速排序解决TopK问题和数据流的中位数》 — 杨家浩&url=http://yoursite.com/2019/01/19/使用快速排序解决TopK问题和数据流的中位数/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/01/19/使用快速排序解决TopK问题和数据流的中位数/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADIElEQVR42u3aS3LjMAwFwNz/0p4DZKQ8AHSVBbdWKX8kNr1A8MCfn/h6XVz3n//99/09f79+9crVsw5f2NjY2A9hv26vd7N760k26I/VYmNjY69j95aev1vd3Psid2CLsbGxsb+YnRe5++/mrc5biiU2NjY2dutbVWQvkMLGxsb+TnZvKb34aVKQ7l95S5aGjY2N/fHsfCr6+X+/Zb6NjY2N/cHsV/HqBUB5OamupKnAxsbGXsTOC8CkXUnumY+Qe20GNjY29m725Kb3y8pjoGpcla8k+hmwsbGxH85Oll49uDMZJOQtx2QgjY2Njb2DXT0cM5lCVJuZXkMSlTFsbGzsL2D3Stc73q0euEnujI2Njb2JPR+1ztuGpPBMDhKNsjRsbGzsj2f3RrN58aguKwme8jJW3i1sbGzsB7Lz5VaLVq+9OdBU5JuFjY2NvYhdngy3Ap3ewaDe0KKwWdjY2Ngr2NU2oFrwqjFT3iblY4xClcPGxsZ+LHsSD81LUR4PVYfH0ZAAGxsb++Hs6mNyfO9u5S6qVTixsbGxd7CroXzeVOQRUnKffEQRtTTY2NjY69hnQ6LqOHZSDvOfpJCiYWNjYz+KPQ/oq4Wq1+RMtvJyI7CxsbGXss/G94VyMh4hV1eOjY2NvYOdB0OT0pV/q9om9QYJ2NjY2PvYyWOS1ycDgHz7qj/Mfz6PjY2NvYjdK1HzIKl6n2rg1Suo2NjY2E9k5+Unbx5O/QK9T0YbhI2Njb2Onccx8xai2uRMBhKXT8fGxsZexJ4ceSnfuhVdJVuWbwE2Njb2VnaeM/UenL97KuoqHNzBxsbGXsSuDnTzFqU3Tsg3qDd+xsbGxt7HTlqFU2Uv35RyL5WXOmxsbOwV7FfxyuP7PCSaNDO9QAobGxt7E7tXACYHaPJxbK+YnS172NjY2E9h5w+bbFMPWT2mUyiH2NjY2OvYeRiUl4r5UZu8BcqHE9jY2NjYvX/9q8PdSXEqJGrY2NjY2K0B8HycXC1j2NjY2N/AnoTyvTHAJB7KW6Y/WhFsbGzsFexqQHPq0EzvMM08qMLGxsZexP4H2W/tOSSc7hkAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
