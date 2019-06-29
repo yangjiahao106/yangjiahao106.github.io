@@ -14,24 +14,24 @@
     
     
     
-    <title>mysql 死锁 | 杨家浩</title>
+    <title>git revert merge | 杨家浩</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
     
     
     <meta name="keywords" content="">
-    <meta name="description" content="mysql死锁今天的代码中一不小心引入了一个死锁，找了好久才找到问题。我在一个接口中开启了一个事务，并做了一些更新，由于在接口中又调用了另一个接口，接口中更新了同一条数据，就产生了死锁。 死锁产生的几种情况：">
+    <meta name="description" content="git revert merge合并代码的时候出了一些问题，想要将这次合并revert调， 结果出错了 error: commit 9002453bd778790d03022d00b271f71fdb146b76 is a merge but no -m option was given. fatal: revert failed -m 是什么鬼，查看一下帮助文档 -m parent-number">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mysql 死锁">
-<meta property="og:url" content="http://yoursite.com/2019/05/13/mysql 死锁/index.html">
+<meta property="og:title" content="git revert merge">
+<meta property="og:url" content="http://yoursite.com/2019/06/29/git-revert-merge/index.html">
 <meta property="og:site_name" content="杨家浩">
-<meta property="og:description" content="mysql死锁今天的代码中一不小心引入了一个死锁，找了好久才找到问题。我在一个接口中开启了一个事务，并做了一些更新，由于在接口中又调用了另一个接口，接口中更新了同一条数据，就产生了死锁。 死锁产生的几种情况：">
+<meta property="og:description" content="git revert merge合并代码的时候出了一些问题，想要将这次合并revert调， 结果出错了 error: commit 9002453bd778790d03022d00b271f71fdb146b76 is a merge but no -m option was given. fatal: revert failed -m 是什么鬼，查看一下帮助文档 -m parent-number">
 <meta property="og:locale" content="english">
-<meta property="og:updated_time" content="2019-05-13T13:55:57.031Z">
+<meta property="og:updated_time" content="2019-06-29T12:23:46.152Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="mysql 死锁">
-<meta name="twitter:description" content="mysql死锁今天的代码中一不小心引入了一个死锁，找了好久才找到问题。我在一个接口中开启了一个事务，并做了一些更新，由于在接口中又调用了另一个接口，接口中更新了同一条数据，就产生了死锁。 死锁产生的几种情况：">
+<meta name="twitter:title" content="git revert merge">
+<meta name="twitter:description" content="git revert merge合并代码的时候出了一些问题，想要将这次合并revert调， 结果出错了 error: commit 9002453bd778790d03022d00b271f71fdb146b76 is a merge but no -m option was given. fatal: revert failed -m 是什么鬼，查看一下帮助文档 -m parent-number">
     
         <link rel="alternate" type="application/atom+xml" title="杨家浩" href="/atom.xml">
     
@@ -119,7 +119,7 @@
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
           <i class="icon icon-lg icon-navicon"></i>
         </a>
-        <div class="flex-col header-title ellipsis">mysql 死锁</div>
+        <div class="flex-col header-title ellipsis">git revert merge</div>
         
         <div class="search-wrap" id="search-wrap">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
@@ -141,11 +141,11 @@
 <header class="content-header post-header">
 
     <div class="container fade-scale">
-        <h1 class="title">mysql 死锁</h1>
+        <h1 class="title">git revert merge</h1>
         <h5 class="subtitle">
             
-                <time datetime="2019-05-13T08:58:40.000Z" itemprop="datePublished" class="page-time">
-  2019-05-13
+                <time datetime="2019-06-29T12:22:49.000Z" itemprop="datePublished" class="page-time">
+  2019-06-29
 </time>
 
 
@@ -164,17 +164,17 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#mysql死锁"><span class="post-toc-number">1.</span> <span class="post-toc-text">mysql死锁</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#死锁产生的几种情况："><span class="post-toc-number">2.</span> <span class="post-toc-text">死锁产生的几种情况：</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#git-revert-merge"><span class="post-toc-number">1.</span> <span class="post-toc-text">git revert merge</span></a></li></ol>
         </nav>
     </aside>
 
 
-<article id="post-mysql 死锁" class="post-article article-type-post fade" itemprop="blogPost">
+<article id="post-git-revert-merge" class="post-article article-type-post fade" itemprop="blogPost">
 
     <div class="post-card">
-        <h1 class="post-card-title">mysql 死锁</h1>
+        <h1 class="post-card-title">git revert merge</h1>
         <div class="post-meta">
-            <time class="post-time" title="2019-05-13 16:58:40" datetime="2019-05-13T08:58:40.000Z" itemprop="datePublished">2019-05-13</time>
+            <time class="post-time" title="2019-06-29 20:22:49" datetime="2019-06-29T12:22:49.000Z" itemprop="datePublished">2019-06-29</time>
 
             
 
@@ -187,8 +187,26 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <h1 id="mysql死锁"><a href="#mysql死锁" class="headerlink" title="mysql死锁"></a>mysql死锁</h1><p>今天的代码中一不小心引入了一个死锁，找了好久才找到问题。我在一个接口中开启了一个事务，并做了一些更新，由于在接口中又调用了另一个接口，接口中更新了同一条数据，就产生了死锁。</p>
-<h1 id="死锁产生的几种情况："><a href="#死锁产生的几种情况：" class="headerlink" title="死锁产生的几种情况："></a>死锁产生的几种情况：</h1>
+            <h1 id="git-revert-merge"><a href="#git-revert-merge" class="headerlink" title="git revert merge"></a>git revert merge</h1><p>合并代码的时候出了一些问题，想要将这次合并revert调， 结果出错了</p>
+<pre><code>error: commit 9002453bd778790d03022d00b271f71fdb146b76 is a merge but no -m option was given.
+fatal: revert failed
+</code></pre><p>-m 是什么鬼，查看一下帮助文档</p>
+<pre><code>-m parent-number, --mainline parent-number
+       Usually you cannot revert a merge because you do not know which side of the merge should be considered the mainline. This option specifies the parent number (starting from 1) of the mainline and
+      allows revert to reverse the change relative to the specified parent.
+
+      Reverting a merge commit declares that you will never want the tree changes brought in by the merge. As a result, later merges will only bring in tree changes introduced by commits that are not
+      ancestors of the previously reverted merge. This may or may not be what you want.
+
+      See the revert-a-faulty-merge How-To[1] for more details.
+</code></pre><p>原因是一次merge提交会有两个parent,我们需要指定一个parent作为主线,那么如何指定一条主线呢？如果你在A分支上合并B分支到A分支，那么1 就代表A分支，2 就代表B分支。在分支A上执行 git revert <commitid> -m 1 就将从B分支上和并过来的提交给删除了。</commitid></p>
+<p>或者通过git log 查看一下，Merge后面第一个commit ID就是1，第二个commit ID就是2</p>
+<pre><code>commit 9002453bd778790d03022d00b271f71fdb146b76 (HEAD -&gt; master)
+Merge: 7df7c3c 4b6f9c2
+Author: yangjh &lt;yangjh@ibaodashi.com&gt;
+Date:   Sat Jun 15 16:21:00 2019 +0800
+</code></pre><p>现在根据需求我只需要 git revert 900245 -m 1  就可以了。</p>
+
         </div>
 
         <blockquote class="post-copyright">
@@ -196,12 +214,12 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-05-13T13:55:57.031Z" itemprop="dateUpdated">2019-05-13 21:55:57</time>
+    Last updated: <time datetime="2019-06-29T12:23:46.152Z" itemprop="dateUpdated">2019-06-29 20:23:46</time>
 </span><br>
 
 
         
-        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2019/05/13/mysql 死锁/" target="_blank" rel="external">http://yoursite.com/2019/05/13/mysql 死锁/</a>
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2019/06/29/git-revert-merge/" target="_blank" rel="external">http://yoursite.com/2019/06/29/git-revert-merge/</a>
         
     </div>
     
@@ -230,7 +248,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/05/13/mysql 死锁/&title=《mysql 死锁》 — 杨家浩&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/06/29/git-revert-merge/&title=《git revert merge》 — 杨家浩&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -240,22 +258,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/05/13/mysql 死锁/&title=《mysql 死锁》 — 杨家浩&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/06/29/git-revert-merge/&title=《git revert merge》 — 杨家浩&source=" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/05/13/mysql 死锁/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/06/29/git-revert-merge/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《mysql 死锁》 — 杨家浩&url=http://yoursite.com/2019/05/13/mysql 死锁/&via=http://yoursite.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《git revert merge》 — 杨家浩&url=http://yoursite.com/2019/06/29/git-revert-merge/&via=http://yoursite.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/05/13/mysql 死锁/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/06/29/git-revert-merge/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -275,21 +293,14 @@
     </div>
 
     
-<nav class="post-nav flex-row flex-justify-between">
-  
-    <div class="waves-block waves-effect prev">
-      <a href="/2019/06/02/golang-匿名函数中使用外部变量/" id="post-prev" class="post-nav-link">
-        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
-        <h4 class="title">golang 匿名函数中使用外部变量</h4>
-      </a>
-    </div>
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
   
 
   
     <div class="waves-block waves-effect next">
-      <a href="/2019/04/15/mysql-for-update/" id="post-next" class="post-nav-link">
+      <a href="/2019/06/29/jetBrains-IDE正则搜索替换高级用法/" id="post-next" class="post-nav-link">
         <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
-        <h4 class="title">mysql中for update</h4>
+        <h4 class="title">jetBrains IDE正则搜索替换高级用法</h4>
       </a>
     </div>
   
@@ -385,7 +396,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/05/13/mysql 死锁/&title=《mysql 死锁》 — 杨家浩&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/06/29/git-revert-merge/&title=《git revert merge》 — 杨家浩&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -395,22 +406,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/05/13/mysql 死锁/&title=《mysql 死锁》 — 杨家浩&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/06/29/git-revert-merge/&title=《git revert merge》 — 杨家浩&source=" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/05/13/mysql 死锁/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/06/29/git-revert-merge/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《mysql 死锁》 — 杨家浩&url=http://yoursite.com/2019/05/13/mysql 死锁/&via=http://yoursite.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《git revert merge》 — 杨家浩&url=http://yoursite.com/2019/06/29/git-revert-merge/&via=http://yoursite.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/05/13/mysql 死锁/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/06/29/git-revert-merge/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -421,7 +432,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACJ0lEQVR42u3aQY6DMAwF0N7/0sy20kzh26YjkbysEG0hrwvLsf16xet4W+93et///en5/dsWBgbGYxnH6TrfVv7i/Pnn9z++EQMDYwPGpxcn3zkPrD1SvjcMDAyM0aMHoRkDAwNjHnCriV31DgYGBkbvENsLkb1k8YtncQwMjAcy8qr7/19/pb+BgYHxKMZRXHnDcpIIlneFgYGxNCMPcNWm482ltOSPw8DAWJrRy7Imv8qTwuaRFQMDYyFG9cXnDz1HJhvt/RYDA2M3RjkJi0ty1difH54xMDD2YfS2MkklkwJc4RSOgYGxNKO60UlpbNJlvSiuYWBgbMO4OC62mpfJ06rt0j9SQwwMjEUZeZKXhOmkVJcH07wVgYGBsTYj/3G10ZiX8KpDG9G0CAYGxnKMalKYNDiTPyLHF4YtMDAwFmWcb6UKzgPl5PriLI6BgbEcYxIcC+X71hDGaGYEAwNjUUZ1c71Usrrdi29iYGAszeiFxWpjclJoy9NEDAyMtRnV0a5XcY3+0TzcY2BgbMmoltgm4bWamEb9WAwMjEUZ+XXy+mTM4ragj4GBsSjjKK7eQfeu0dWPbAwMjKUZ1YNonghWk8veobeMwcDAeCyjWqxPksVq2L0hfcTAwNiAkR9uq8fgalrZHLbAwMDAaJEmTdDyczAwMDDisdS8WJbDotE0DAyMDRj5SESvxHbvEBgGBsZujN6jJy3GSQth1MjEwMB4HuMHMqqdO61cXucAAAAASUVORK5CYII=" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACL0lEQVR42u3aS26DQBAFQN//0s42UhR4rwdHYShWloVhyotW/16v+Hr/uL5/f3z/zzvzX118YWBg3JbxPrzye357cvKEC96LgYHxAEZyiOPDHYfmhNeGZgwMDIzjxyXftGllm3piYGBgtK9sw3EbfDEwMDCSYrJN8maNto/X4hgYGDdk5F33v//8kfkGBgbGrRizZv1K+tiG1OhUGBgYWzPyAJekbsnTrgq4GBgYz2QkJWhbiCYl8aypV/zTGBgYN2e0L2i/uWpp4+QPxcDAeABjtuDVHrdtoiW/wsDAeAKjDW0rzbJ2/StJQF+zh2JgYNyWcRwoi8C3UCRfUItjYGBsx8gD4uy4bVqZj0tPanEMDIyNGOthd7Zgkff289EpBgbG3ox2FWwl1CYl8TAoY2BgbMpoG2ez9tzKIDNKCjEwMLZmtKFwFliTBDFJRgsMBgbGdoz1plvyyihQBgniB8cDGBgY/5LRAtrxZP6W2Z84nG9gYGDcipGkXCtjxeTos2L4ZLKBgYHxAEa7pJWXmrNGW3RCDAyMRzJyZD6qTBp5w/oUAwPjAYx8SNkuSbRF77BsxsDA2JTxLq82fby2DXfSaMPAwNiUsRLmZiVoO+Yc7oxgYGBsx8hLzbaUnSWC7RkwMDCew7gq8OWBuF3sOMFgYGBgrKxBxKR8jQMDAwNjnZGPFmZrssUkFgMDYyPGbCViPRAnjbkofGNgYGzNWCod4wDdDgzaMQMGBsamjC+E+SLg8RH0gAAAAABJRU5ErkJggg==" alt="微信分享二维码">
 </div>
 
 

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-06-02T15:53:03.422Z</updated>
+  <updated>2019-06-29T12:23:46.152Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,48 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>git revert merge</title>
+    <link href="http://yoursite.com/2019/06/29/git-revert-merge/"/>
+    <id>http://yoursite.com/2019/06/29/git-revert-merge/</id>
+    <published>2019-06-29T12:22:49.000Z</published>
+    <updated>2019-06-29T12:23:46.152Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="git-revert-merge"><a href="#git-revert-merge" class="headerlink" title="git revert merge"></a>git revert merge</h1><p>合并代码的时候出了一些问题，想要将这次合并revert调， 结果出错了</p><pre><code>error: commit 9002453bd778790d03022d00b271f71fdb146b76 is a merge but no -m option was given.fatal: revert failed</code></pre><p>-m 是什么鬼，查看一下帮助文档</p><pre><code>-m parent-number, --mainline parent-number       Usually you cannot revert a merge because you do not know which side of the merge should be considered the mainline. This option specifies the parent number (starting from 1) of the mainline and      allows revert to reverse the change relative to the specified parent.      Reverting a merge commit declares that you will never want the tree changes brought in by the merge. As a result, later merges will only bring in tree changes introduced by commits that are not      ancestors of the previously reverted merge. This may or may not be what you want.      See the revert-a-faulty-merge How-To[1] for more details.</code></pre><p>原因是一次merge提交会有两个parent,我们需要指定一个parent作为主线,那么如何指定一条主线呢？如果你在A分支上合并B分支到A分支，那么1 就代表A分支，2 就代表B分支。在分支A上执行 git revert <commitid> -m 1 就将从B分支上和并过来的提交给删除了。</commitid></p><p>或者通过git log 查看一下，Merge后面第一个commit ID就是1，第二个commit ID就是2</p><pre><code>commit 9002453bd778790d03022d00b271f71fdb146b76 (HEAD -&gt; master)Merge: 7df7c3c 4b6f9c2Author: yangjh &lt;yangjh@ibaodashi.com&gt;Date:   Sat Jun 15 16:21:00 2019 +0800</code></pre><p>现在根据需求我只需要 git revert 900245 -m 1  就可以了。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;git-revert-merge&quot;&gt;&lt;a href=&quot;#git-revert-merge&quot; class=&quot;headerlink&quot; title=&quot;git revert merge&quot;&gt;&lt;/a&gt;git revert merge&lt;/h1&gt;&lt;p&gt;合并代码的时候出了一些问题，
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>jetBrains IDE正则搜索替换高级用法</title>
+    <link href="http://yoursite.com/2019/06/29/jetBrains-IDE%E6%AD%A3%E5%88%99%E6%90%9C%E7%B4%A2%E6%9B%BF%E6%8D%A2%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95/"/>
+    <id>http://yoursite.com/2019/06/29/jetBrains-IDE正则搜索替换高级用法/</id>
+    <published>2019-06-29T12:20:01.000Z</published>
+    <updated>2019-06-29T12:23:50.439Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="jetBrains-IED关于正则搜索替换的高级用法。"><a href="#jetBrains-IED关于正则搜索替换的高级用法。" class="headerlink" title="jetBrains IED关于正则搜索替换的高级用法。"></a>jetBrains IED关于正则搜索替换的高级用法。</h1><h2 id="使用正则表达式捕获分组和反向引用分组。"><a href="#使用正则表达式捕获分组和反向引用分组。" class="headerlink" title="使用正则表达式捕获分组和反向引用分组。"></a>使用正则表达式捕获分组和反向引用分组。</h2><p>当我们使用正则表达式去替换一些东西时，我们还想使用正则匹配到的一些内容中，就可以使用分组然后在替换结果中引用它。</p><h3 id="举个栗子："><a href="#举个栗子：" class="headerlink" title="举个栗子："></a>举个栗子：</h3><p>替换前：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">new</span> <span class="attr">product</span>=<span class="string">"ij"</span> <span class="attr">category</span>=<span class="string">"105"</span> <span class="attr">title</span>=<span class="string">"Multiline search and replace in the current file"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">new</span> <span class="attr">product</span>=<span class="string">"ij"</span> <span class="attr">category</span>=<span class="string">"105"</span> <span class="attr">title</span>=<span class="string">"Improved search and replace in the current file"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">new</span> <span class="attr">product</span>=<span class="string">"ij"</span> <span class="attr">category</span>=<span class="string">"105"</span> <span class="attr">title</span>=<span class="string">"Regexp shows replacement preview"</span>/&gt;</span></span><br></pre></td></tr></table></figure></p><p>替换后：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;new product=&quot;ij&quot; category=&quot;105&quot;/&gt;&lt;title&gt;Multiline search and replace in the current file&lt;/title&gt;</span><br><span class="line">&lt;new product=&quot;ij&quot; category=&quot;105&quot;/&gt;&lt;title&gt;Improved search and replace in the current file&lt;/title&gt;</span><br><span class="line">&lt;new product=&quot;ij&quot; category=&quot;105&quot;/&gt;&lt;title&gt;Regexp shows replacement preview&lt;/title&gt;</span><br></pre></td></tr></table></figure></p><h4 id="1-使用快捷键Ctrl-R调出替换工具栏，选择正则表达式模式"><a href="#1-使用快捷键Ctrl-R调出替换工具栏，选择正则表达式模式" class="headerlink" title="1.使用快捷键Ctrl + R调出替换工具栏，选择正则表达式模式"></a>1.使用快捷键Ctrl + R调出替换工具栏，选择正则表达式模式</h4><h4 id="2-在搜索栏内输入正则表达式："><a href="#2-在搜索栏内输入正则表达式：" class="headerlink" title="2.在搜索栏内输入正则表达式："></a>2.在搜索栏内输入正则表达式：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\stitle=&quot;(.*)?&quot;\s*(/&gt;*)</span><br></pre></td></tr></table></figure><h4 id="3-在替换栏内输入替换结果，使用-加上数字反向引用正则中匹配的分组，如何确定分组编号有一个小技巧，就是数’-‘的个数，内容在哪个’-‘内-就是第几个分组。"><a href="#3-在替换栏内输入替换结果，使用-加上数字反向引用正则中匹配的分组，如何确定分组编号有一个小技巧，就是数’-‘的个数，内容在哪个’-‘内-就是第几个分组。" class="headerlink" title="3. 在替换栏内输入替换结果，使用$加上数字反向引用正则中匹配的分组，如何确定分组编号有一个小技巧，就是数’(‘的个数，内容在哪个’(‘内,就是第几个分组。"></a>3. 在替换栏内输入替换结果，使用$加上数字反向引用正则中匹配的分组，如何确定分组编号有一个小技巧，就是数’(‘的个数，内容在哪个’(‘内,就是第几个分组。</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$2&lt;title&gt;$1&lt;/title&gt;</span><br></pre></td></tr></table></figure><h4 id="4-点击REPLACE-All-大功告成"><a href="#4-点击REPLACE-All-大功告成" class="headerlink" title="4. 点击REPLACE All 大功告成"></a>4. 点击REPLACE All 大功告成</h4><h2 id="转换字符大小写"><a href="#转换字符大小写" class="headerlink" title="转换字符大小写"></a>转换字符大小写</h2><pre><code>语法也很简单，一共有四种：\l changes a character to lowercase until the next character in the string. For example, Bar becomes bar.\u changes a character to uppercase until the next character in the string. For example, bar becomes Bar.\L changes characters to lowercase until the end of the literal string (\E). For example, BAR becomes bar.\U changes characters to uppercase until the end of the literal string (\E). For example, bar becomes BAR.翻译过来就是：\l 首字母变小型，例如 Bar -&gt; bar\u 首字母变大小，例如 bar -&gt; Bar\L 字符串变小写，例如 BAR -&gt; bar\U 字符串变大写，例如 bar -&gt; BAR</code></pre><h3 id="举个栗子"><a href="#举个栗子" class="headerlink" title="举个栗子"></a>举个栗子</h3><p>下划线格式，变小驼峰格式</p><p>搜索栏：</p><pre><code>_([a-z]+)</code></pre><p>替换栏：</p><pre><code>\u$1</code></pre><h4 id="推荐一个jetbrains插件CamelCase-安装后使用快捷键SHIFT-ALT-U-可以切换CamelCase-camelCase-snake-case-SNAKE-CASE-四种风格。"><a href="#推荐一个jetbrains插件CamelCase-安装后使用快捷键SHIFT-ALT-U-可以切换CamelCase-camelCase-snake-case-SNAKE-CASE-四种风格。" class="headerlink" title="推荐一个jetbrains插件CamelCase, 安装后使用快捷键SHIFT + ALT + U 可以切换CamelCase, camelCase, snake_case, SNAKE_CASE 四种风格。"></a>推荐一个jetbrains插件CamelCase, 安装后使用快捷键SHIFT + ALT + U 可以切换CamelCase, camelCase, snake_case, SNAKE_CASE 四种风格。</h4><h2 id="多行搜索"><a href="#多行搜索" class="headerlink" title="多行搜索"></a>多行搜索</h2><p>最近查找BUG时搜索代码用到了多行搜索，顺便做个笔记。</p><h3 id="还是举个栗子"><a href="#还是举个栗子" class="headerlink" title="还是举个栗子"></a>还是举个栗子</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">package awesomeProject</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">func main()  &#123;</span><br><span class="line">update := map[string]interface&#123;&#125;&#123;</span><br><span class="line">&quot;hello&quot;:&quot;world&quot;,</span><br><span class="line">&quot;name&quot;: &quot;tom&quot;,</span><br><span class="line">&quot;holy&quot;:&quot;shit&quot;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">update = map[string]interface&#123;&#125;&#123;</span><br><span class="line">&quot;hello&quot;:&quot;world&quot;,</span><br><span class="line">&quot;holy&quot;:&quot;shit&quot;,</span><br><span class="line">&#125;</span><br><span class="line">update[&quot;name&quot;] = &quot;marry&quot;</span><br><span class="line">fmt.Println(update)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>假如代码中定义了许多的名为updage的map现在要搜索update中有添加键为name的代码，正则表达式可以这样写</p><pre><code>(update.*=.*\{[^}]*?name[^}]*?\})|(update\[&quot;name&quot;])</code></pre><p>要搜索出第一个update就需要使用多行搜索。[^}] 可以匹配除了 } 的所有字符，包括空格换行制表等等，然后使用} 进行结束匹配，避免匹配过多内容。搜索第二个update就简单多了。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;jetBrains-IED关于正则搜索替换的高级用法。&quot;&gt;&lt;a href=&quot;#jetBrains-IED关于正则搜索替换的高级用法。&quot; class=&quot;headerlink&quot; title=&quot;jetBrains IED关于正则搜索替换的高级用法。&quot;&gt;&lt;/a&gt;jetBr
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>golang等待其他goroutine结束</title>
@@ -54,20 +96,6 @@
         &lt;p&gt;defer 的匿名函数中引用了外部变量a，a 的值在for循环结束最后会被设为”mouse”, 所以defer中的输出都为”mouse”&lt;/p&gt;
 &lt;figure class=&quot;highlight golang&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;
       
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
-    <link href="http://yoursite.com/2019/05/19/huxiu/"/>
-    <id>http://yoursite.com/2019/05/19/huxiu/</id>
-    <published>2019-05-19T08:46:50.657Z</published>
-    <updated>2019-05-19T08:46:50.657Z</updated>
-    
-    <summary type="html">
     
     </summary>
     
