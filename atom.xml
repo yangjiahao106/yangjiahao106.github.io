@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-06-29T12:23:46.152Z</updated>
+  <updated>2019-11-04T15:18:17.604Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,20 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>mysql-batch-update.md</title>
+    <link href="http://yoursite.com/2019/11/04/mysql-batch-update-md/"/>
+    <id>http://yoursite.com/2019/11/04/mysql-batch-update-md/</id>
+    <published>2019-11-04T15:18:17.000Z</published>
+    <updated>2019-11-04T15:18:17.604Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>git revert merge</title>

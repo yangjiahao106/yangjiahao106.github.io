@@ -14,24 +14,21 @@
     
     
     
-    <title>git revert merge | 杨家浩</title>
+    <title>mysql-batch-update.md | 杨家浩</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
     
     
     <meta name="keywords" content="">
-    <meta name="description" content="git revert merge合并代码的时候出了一些问题，想要将这次合并revert调， 结果出错了 error: commit 9002453bd778790d03022d00b271f71fdb146b76 is a merge but no -m option was given. fatal: revert failed -m 是什么鬼，查看一下帮助文档 -m parent-number">
-<meta property="og:type" content="article">
-<meta property="og:title" content="git revert merge">
-<meta property="og:url" content="http://yoursite.com/2019/06/29/git-revert-merge/index.html">
+    <meta property="og:type" content="article">
+<meta property="og:title" content="mysql-batch-update.md">
+<meta property="og:url" content="http://yoursite.com/2019/11/04/mysql-batch-update-md/index.html">
 <meta property="og:site_name" content="杨家浩">
-<meta property="og:description" content="git revert merge合并代码的时候出了一些问题，想要将这次合并revert调， 结果出错了 error: commit 9002453bd778790d03022d00b271f71fdb146b76 is a merge but no -m option was given. fatal: revert failed -m 是什么鬼，查看一下帮助文档 -m parent-number">
 <meta property="og:locale" content="english">
-<meta property="og:updated_time" content="2019-06-29T12:23:46.152Z">
+<meta property="og:updated_time" content="2019-11-04T15:18:17.604Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="git revert merge">
-<meta name="twitter:description" content="git revert merge合并代码的时候出了一些问题，想要将这次合并revert调， 结果出错了 error: commit 9002453bd778790d03022d00b271f71fdb146b76 is a merge but no -m option was given. fatal: revert failed -m 是什么鬼，查看一下帮助文档 -m parent-number">
+<meta name="twitter:title" content="mysql-batch-update.md">
     
         <link rel="alternate" type="application/atom+xml" title="杨家浩" href="/atom.xml">
     
@@ -119,7 +116,7 @@
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
           <i class="icon icon-lg icon-navicon"></i>
         </a>
-        <div class="flex-col header-title ellipsis">git revert merge</div>
+        <div class="flex-col header-title ellipsis">mysql-batch-update.md</div>
         
         <div class="search-wrap" id="search-wrap">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
@@ -141,11 +138,11 @@
 <header class="content-header post-header">
 
     <div class="container fade-scale">
-        <h1 class="title">git revert merge</h1>
+        <h1 class="title">mysql-batch-update.md</h1>
         <h5 class="subtitle">
             
-                <time datetime="2019-06-29T12:22:49.000Z" itemprop="datePublished" class="page-time">
-  2019-06-29
+                <time datetime="2019-11-04T15:18:17.000Z" itemprop="datePublished" class="page-time">
+  2019-11-04
 </time>
 
 
@@ -161,20 +158,13 @@
 
 <div class="container body-wrap">
     
-    <aside class="post-widget">
-        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
-            <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#git-revert-merge"><span class="post-toc-number">1.</span> <span class="post-toc-text">git revert merge</span></a></li></ol>
-        </nav>
-    </aside>
 
-
-<article id="post-git-revert-merge" class="post-article article-type-post fade" itemprop="blogPost">
+<article id="post-mysql-batch-update-md" class="post-article article-type-post fade" itemprop="blogPost">
 
     <div class="post-card">
-        <h1 class="post-card-title">git revert merge</h1>
+        <h1 class="post-card-title">mysql-batch-update.md</h1>
         <div class="post-meta">
-            <time class="post-time" title="2019-06-29 20:22:49" datetime="2019-06-29T12:22:49.000Z" itemprop="datePublished">2019-06-29</time>
+            <time class="post-time" title="2019-11-04 23:18:17" datetime="2019-11-04T15:18:17.000Z" itemprop="datePublished">2019-11-04</time>
 
             
 
@@ -187,26 +177,7 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <h1 id="git-revert-merge"><a href="#git-revert-merge" class="headerlink" title="git revert merge"></a>git revert merge</h1><p>合并代码的时候出了一些问题，想要将这次合并revert调， 结果出错了</p>
-<pre><code>error: commit 9002453bd778790d03022d00b271f71fdb146b76 is a merge but no -m option was given.
-fatal: revert failed
-</code></pre><p>-m 是什么鬼，查看一下帮助文档</p>
-<pre><code>-m parent-number, --mainline parent-number
-       Usually you cannot revert a merge because you do not know which side of the merge should be considered the mainline. This option specifies the parent number (starting from 1) of the mainline and
-      allows revert to reverse the change relative to the specified parent.
-
-      Reverting a merge commit declares that you will never want the tree changes brought in by the merge. As a result, later merges will only bring in tree changes introduced by commits that are not
-      ancestors of the previously reverted merge. This may or may not be what you want.
-
-      See the revert-a-faulty-merge How-To[1] for more details.
-</code></pre><p>原因是一次merge提交会有两个parent,我们需要指定一个parent作为主线,那么如何指定一条主线呢？如果你在A分支上合并B分支到A分支，那么1 就代表A分支，2 就代表B分支。在分支A上执行 git revert <commitid> -m 1 就将从B分支上和并过来的提交给删除了。</commitid></p>
-<p>或者通过git log 查看一下，Merge后面第一个commit ID就是1，第二个commit ID就是2</p>
-<pre><code>commit 9002453bd778790d03022d00b271f71fdb146b76 (HEAD -&gt; master)
-Merge: 7df7c3c 4b6f9c2
-Author: yangjh &lt;yangjh@ibaodashi.com&gt;
-Date:   Sat Jun 15 16:21:00 2019 +0800
-</code></pre><p>现在根据需求我只需要 git revert 900245 -m 1  就可以了。</p>
-
+            
         </div>
 
         <blockquote class="post-copyright">
@@ -214,12 +185,12 @@ Date:   Sat Jun 15 16:21:00 2019 +0800
     <div class="content">
         
 <span class="post-time">
-    最終更新：<time datetime="2019-06-29T12:23:46.152Z" itemprop="dateUpdated">2019-06-29 20:23:46</time>
+    最終更新：<time datetime="2019-11-04T15:18:17.604Z" itemprop="dateUpdated">2019-11-04 23:18:17</time>
 </span><br>
 
 
         
-        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2019/06/29/git-revert-merge/" target="_blank" rel="external">http://yoursite.com/2019/06/29/git-revert-merge/</a>
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2019/11/04/mysql-batch-update-md/" target="_blank" rel="external">http://yoursite.com/2019/11/04/mysql-batch-update-md/</a>
         
     </div>
     
@@ -248,7 +219,7 @@ Date:   Sat Jun 15 16:21:00 2019 +0800
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/06/29/git-revert-merge/&title=《git revert merge》 — 杨家浩&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/11/04/mysql-batch-update-md/&title=《mysql-batch-update.md》 — 杨家浩&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -258,22 +229,22 @@ Date:   Sat Jun 15 16:21:00 2019 +0800
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/06/29/git-revert-merge/&title=《git revert merge》 — 杨家浩&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/11/04/mysql-batch-update-md/&title=《mysql-batch-update.md》 — 杨家浩&source=" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/06/29/git-revert-merge/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/11/04/mysql-batch-update-md/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《git revert merge》 — 杨家浩&url=http://yoursite.com/2019/06/29/git-revert-merge/&via=http://yoursite.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《mysql-batch-update.md》 — 杨家浩&url=http://yoursite.com/2019/11/04/mysql-batch-update-md/&via=http://yoursite.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/06/29/git-revert-merge/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/11/04/mysql-batch-update-md/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -293,21 +264,14 @@ Date:   Sat Jun 15 16:21:00 2019 +0800
     </div>
 
     
-<nav class="post-nav flex-row flex-justify-between">
-  
-    <div class="waves-block waves-effect prev">
-      <a href="/2019/11/04/mysql-batch-update-md/" id="post-prev" class="post-nav-link">
-        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
-        <h4 class="title">mysql-batch-update.md</h4>
-      </a>
-    </div>
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
   
 
   
     <div class="waves-block waves-effect next">
-      <a href="/2019/06/29/jetBrains-IDE正则搜索替换高级用法/" id="post-next" class="post-nav-link">
+      <a href="/2019/06/29/git-revert-merge/" id="post-next" class="post-nav-link">
         <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
-        <h4 class="title">jetBrains IDE正则搜索替换高级用法</h4>
+        <h4 class="title">git revert merge</h4>
       </a>
     </div>
   
@@ -403,7 +367,7 @@ Date:   Sat Jun 15 16:21:00 2019 +0800
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/06/29/git-revert-merge/&title=《git revert merge》 — 杨家浩&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2019/11/04/mysql-batch-update-md/&title=《mysql-batch-update.md》 — 杨家浩&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -413,22 +377,22 @@ Date:   Sat Jun 15 16:21:00 2019 +0800
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/06/29/git-revert-merge/&title=《git revert merge》 — 杨家浩&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2019/11/04/mysql-batch-update-md/&title=《mysql-batch-update.md》 — 杨家浩&source=" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/06/29/git-revert-merge/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2019/11/04/mysql-batch-update-md/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《git revert merge》 — 杨家浩&url=http://yoursite.com/2019/06/29/git-revert-merge/&via=http://yoursite.com" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《mysql-batch-update.md》 — 杨家浩&url=http://yoursite.com/2019/11/04/mysql-batch-update-md/&via=http://yoursite.com" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/06/29/git-revert-merge/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2019/11/04/mysql-batch-update-md/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -439,7 +403,7 @@ Date:   Sat Jun 15 16:21:00 2019 +0800
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACL0lEQVR42u3aS26DQBAFQN//0s42UhR4rwdHYShWloVhyotW/16v+Hr/uL5/f3z/zzvzX118YWBg3JbxPrzye357cvKEC96LgYHxAEZyiOPDHYfmhNeGZgwMDIzjxyXftGllm3piYGBgtK9sw3EbfDEwMDCSYrJN8maNto/X4hgYGDdk5F33v//8kfkGBgbGrRizZv1K+tiG1OhUGBgYWzPyAJekbsnTrgq4GBgYz2QkJWhbiCYl8aypV/zTGBgYN2e0L2i/uWpp4+QPxcDAeABjtuDVHrdtoiW/wsDAeAKjDW0rzbJ2/StJQF+zh2JgYNyWcRwoi8C3UCRfUItjYGBsx8gD4uy4bVqZj0tPanEMDIyNGOthd7Zgkff289EpBgbG3ox2FWwl1CYl8TAoY2BgbMpoG2ez9tzKIDNKCjEwMLZmtKFwFliTBDFJRgsMBgbGdoz1plvyyihQBgniB8cDGBgY/5LRAtrxZP6W2Z84nG9gYGDcipGkXCtjxeTos2L4ZLKBgYHxAEa7pJWXmrNGW3RCDAyMRzJyZD6qTBp5w/oUAwPjAYx8SNkuSbRF77BsxsDA2JTxLq82fby2DXfSaMPAwNiUsRLmZiVoO+Yc7oxgYGBsx8hLzbaUnSWC7RkwMDCew7gq8OWBuF3sOMFgYGBgrKxBxKR8jQMDAwNjnZGPFmZrssUkFgMDYyPGbCViPRAnjbkofGNgYGzNWCod4wDdDgzaMQMGBsamjC+E+SLg8RH0gAAAAABJRU5ErkJggg==" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACNUlEQVR42u3a246DMAxFUf7/p6nUJ6Q2yTl2qIq9eUIdJs2ikuVLjkO+zvd1vb9+ojwzuv9cYfTXDRcMGDAeyzinl77F0Sf6OvNnRmvCgAGjD8MNsvOwqGzdZS/2DAMGDBhCupYJxO7LggEDBgw3HVRSt/mmY+UuDBgwujGUItYoKeVArBe622pxGDBgPJARGwz85v72+QYMGDD+nnGaV6zgdEOnvSsYMGCUZszLS72szZejSkq6eFkwYMAozdi7tEuab3FDyQoDBoyHM9wDE+6xCR0Z2xUMGDB6MpRUTC8s3SQvNiqAAQNGN4Zeys5LXz1Yxw6ELRptMGDAKMTIN/Fj29LHA6lhJwwYMEow3LGiG47dUaUb3GHAgNGBoSRbuzYRC9nGwAAGDBilGe5gQD9ykQmpbmEMAwaM2oxYs15/Q+4I051OwoABozbjjgMTeuPMLVOHK8OAAaMBw22WuQmifpwimETCgAGjDSOWIOqBMl8GD38AGDBglGbsbZnFytFMmw8GDBgdGEra5x7kipW++hhg8TvAgAGjKCNGyqyQaeF9eRIGDBilGe5YcZFjysmiceJDHxXAgAGjKCNTvrojhEwDbtH4gwEDRmmGG+yUUOiG71jqCQMGjG4MPXTqQ8r8wMBeDQYMGA0YejssX8TGLuPkCAwYMBoz9HQtPwQNHguDAQMGDDmt1Nv6evq4+F8YMGA0YOjNegWZaevHVoYBA0ZthltAZgaTeqKpfxcMGDBKM156ck0K1evpsgAAAABJRU5ErkJggg==" alt="微信分享二维码">
 </div>
 
 
