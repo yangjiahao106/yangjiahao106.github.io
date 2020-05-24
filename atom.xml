@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-11-04T15:31:59.009Z</updated>
+  <updated>2020-05-24T17:34:22.298Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>mysql 锁的分类</title>
+    <link href="http://yoursite.com/2020/05/25/mysql%E9%94%81/"/>
+    <id>http://yoursite.com/2020/05/25/mysql锁/</id>
+    <published>2020-05-25T12:22:49.000Z</published>
+    <updated>2020-05-24T17:34:22.298Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="加锁机制分类："><a href="#加锁机制分类：" class="headerlink" title="加锁机制分类："></a>加锁机制分类：</h1><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="736A25C1A8C64EB7BDBC2D4D1577E1CE" alt="image" title="">                </div>                <div class="image-caption">image</div>            </figure><h2 id="1、乐观锁：先修改，保存时判断是够被更新过，应用级别"><a href="#1、乐观锁：先修改，保存时判断是够被更新过，应用级别" class="headerlink" title="1、乐观锁：先修改，保存时判断是够被更新过，应用级别"></a>1、乐观锁：先修改，保存时判断是够被更新过，应用级别</h2><p>乐观锁不是数据库自带的，需要我们自己去实现。乐观锁是指操作数据库时(更新操作)，想法很乐观，认为这次的操作不会导致冲突，在操作数据时，并不进行任何其他的特殊处理（也就是不加锁），而在进行更新后，再去判断是否有冲突了。</p><h3 id="1-1通过-version-实现："><a href="#1-1通过-version-实现：" class="headerlink" title="1.1通过 version 实现："></a>1.1通过 version 实现：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">-- 使用version 实现乐观锁</span><br><span class="line"></span><br><span class="line">--1.查询出商品信息</span><br><span class="line"></span><br><span class="line">select (status,status,version) from t_goods where id=#&#123;id&#125;</span><br><span class="line"></span><br><span class="line">--2.根据商品信息生成订单</span><br><span class="line"></span><br><span class="line">--3.修改商品status为2</span><br><span class="line"></span><br><span class="line">update t_goods </span><br><span class="line"></span><br><span class="line">set status=2,version=version+1</span><br><span class="line"></span><br><span class="line">where id=#&#123;id&#125; and version=#&#123;version&#125;;</span><br></pre></td></tr></table></figure><h3 id="1-2-通过-CAS算法-实现"><a href="#1-2-通过-CAS算法-实现" class="headerlink" title="1.2. 通过 CAS算法 实现"></a>1.2. 通过 CAS算法 实现</h3><p>即compare and swap（比较与交换），是一种有名的无锁算法。无锁编程，即不使用锁的情况下实现多线程之间的变量同步，也就是在没有线程被阻塞的情况下实现变量的同步，所以也叫非阻塞同步（Non-blocking Synchronization）。CAS算法涉及到三个操作数</p><p>需要读写的内存值 V<br>进行比较的值 A<br>拟写入的新值 B</p><p>当且仅当 V 的值等于 A时，CAS通过原子方式用新值B来更新V的值，否则不会执行任何操作（比较和替换是一个原子操作）。一般情况下是一个自旋操作，即不断的重试。</p><p>乐观锁的缺点 <strong>todo</strong> </p><p>作者：Guide哥<br>链接：<a href="https://juejin.im/post/5b4977ae5188251b146b2fc8" target="_blank" rel="noopener">https://juejin.im/post/5b4977ae5188251b146b2fc8</a><br>来源：掘金<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p><h2 id="2、悲观锁：先获取锁，再操作修改，数据库级别，-比如行锁，表锁等，读锁，写锁等，都是在做操作之前先上锁"><a href="#2、悲观锁：先获取锁，再操作修改，数据库级别，-比如行锁，表锁等，读锁，写锁等，都是在做操作之前先上锁" class="headerlink" title="2、悲观锁：先获取锁，再操作修改，数据库级别， 比如行锁，表锁等，读锁，写锁等，都是在做操作之前先上锁"></a>2、悲观锁：先获取锁，再操作修改，数据库级别， 比如<strong>行锁，表锁等，读锁，写锁</strong>等，都是在做操作之前先上锁</h2><h3 id="2-1-共享锁"><a href="#2-1-共享锁" class="headerlink" title="2.1. 共享锁"></a>2.1. 共享锁</h3><p>又称之为读锁，简称S锁，当事务对数据加上读锁后，其他事务只能对该数据加读锁，不能做任何修改操作，也就是不能添加写锁。只有当数据上的读锁被释放后，其他事务才能对其添加写锁。共享锁主要是为了支持并发的读取数据而出现的，读取数据时，不允许其他事务对当前数据进行修改操作，从而避免”不可重读”的问题的出现。</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">from</span> city <span class="keyword">where</span> <span class="keyword">id</span> = <span class="string">"1"</span>  <span class="keyword">lock</span> <span class="keyword">in</span> <span class="keyword">share</span> <span class="keyword">mode</span>;</span><br></pre></td></tr></table></figure><h3 id="2-2-排它锁"><a href="#2-2-排它锁" class="headerlink" title="2.2 排它锁"></a>2.2 排它锁</h3><p>又称之为写锁，简称X锁，当事务对数据加上写锁后，其他事务既不能对该数据添加读写，也不能对该数据添加写锁，写锁与其他锁都是互斥的。只有当前数据写锁被释放后，其他事务才能对其添加写锁或者是读锁。写锁主要是为了解决在修改数据时，不允许其他事务对当前数据进行修改和读取操作，从而可以有效避免”脏读”问题的产生。</p><p>当我们使用sql语句做查询操作，<strong><u>命中索引则添加行锁</u></strong>，此时，共享指定行；<strong><u>没有命中索引则添加表锁</u></strong>，则共享整张表。通过上图我们知道，共享锁只能兼容共享锁，不兼容排它锁，并且，排它锁互斥共享锁和其它排它锁。我们在数据库操作一遍试试看：<br>update,insert,delete语句会自动加排它锁的原因， select for update 也会加排它锁</p><h3 id="MVCC"><a href="#MVCC" class="headerlink" title="MVCC"></a>MVCC</h3>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;加锁机制分类：&quot;&gt;&lt;a href=&quot;#加锁机制分类：&quot; class=&quot;headerlink&quot; title=&quot;加锁机制分类：&quot;&gt;&lt;/a&gt;加锁机制分类：&lt;/h1&gt;&lt;figure class=&quot;image-bubble&quot;&gt;
+                &lt;div cl
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>mysql-batch-update.md</title>
