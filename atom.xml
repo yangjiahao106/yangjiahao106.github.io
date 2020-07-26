@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-05-24T17:34:22.298Z</updated>
+  <updated>2020-07-26T17:08:05.666Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>mysqlbinlog 的常用参数， 记一次回滚操作</title>
+    <link href="http://yoursite.com/2020/07/27/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%9B%9E%E6%BB%9A%E6%93%8D%E4%BD%9C/"/>
+    <id>http://yoursite.com/2020/07/27/记一次回滚操作/</id>
+    <published>2020-07-26T17:07:43.000Z</published>
+    <updated>2020-07-26T17:08:05.666Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="mysqlbinlog-的常用参数，-记一次回滚操作"><a href="#mysqlbinlog-的常用参数，-记一次回滚操作" class="headerlink" title="mysqlbinlog 的常用参数， 记一次回滚操作"></a>mysqlbinlog 的常用参数， 记一次回滚操作</h1><p><a href="https://dev.mysql.com/doc/refman/8.0/en/mysqlbinlog.html" target="_blank" rel="noopener">mysqkbinlog 官方文档</a></p><h2 id="注意"><a href="#注意" class="headerlink" title="注意:"></a>注意:</h2><ol><li>不要查看当前正在写入的binlog文件</li><li>不要加–force参数强制访问</li><li>如果binlog格式是行模式的,请加 -vv参数</li></ol><h3 id="输出示例"><a href="#输出示例" class="headerlink" title="输出示例"></a>输出示例</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># at 141</span><br><span class="line">#200309  9:28:36 server id 123  end_log_pos 245 Query thread_id=3350  exec_time=11  error_code=0</span><br></pre></td></tr></table></figure><p>第一行 at 表示此事件在 二进制日志文件中的偏移量(position)<br>第二行 开头是时间的开始时间(前两位表示年份),紧接着是事件的server id， endlog_postion 表示下一个事件的position即当前事件结束的position+1， thread_id 表示哪个线程执行的该事件，exec_time 表示事件花费的时间(在从服务器上此时间表示从服务器上的结束执行时间减去主服务器上的开始执行时间，从而可以看出复制的滞后时间)， error_codo 是错误码0代表成功。</p><h3 id="常用参数"><a href="#常用参数" class="headerlink" title="常用参数"></a>常用参数</h3><table><thead><tr><th>参数</th><th>含义</th><th>示例</th></tr></thead><tbody><tr><td>–base64-output</td><td>[ AUTO, NEVER,DECODE-ROWS], DECODE-ROWS 指定要将行事件解码并显示为注释的SQL语句通过，需要指定—v选项。同时隐藏了BINLOG语句.</td><td>DECODE-ROWS </td></tr><tr><td>–database</td><td>数据库 </td></tr><tr><td>–offset</td><td>偏移量</td></tr><tr><td>–start-datetime</td><td>开始时间</td></tr><tr><td>–stop-datetime</td><td>结束时间</td></tr><tr><td>–start-position</td><td>postion 起始位置</td></tr><tr><td>–stop-position</td><td>positon 结束位置</td></tr><tr><td>–verbose, -v</td><td>构建sql语句</td></tr></tbody></table><h2 id="记录一次误删除的回滚"><a href="#记录一次误删除的回滚" class="headerlink" title="记录一次误删除的回滚"></a>记录一次误删除的回滚</h2><p>在测试服务器上删除数据的时候，where条件有误，删除了一些重要的数据，由于开启了binlog 并且是ROW模式所以想到了使用mysqlbinlog 找出被删除的数据，并重新插入</p><p>show variables like ‘log_bin’; 查看binlog 是否开启</p><p>show variables like ‘log_%’; 查看binlog 日志文件位置</p><h3 id="1-第一步将最新的binlog日志拷贝出来，通过mysqlbinlog工具将最近时间段的事件导出，"><a href="#1-第一步将最新的binlog日志拷贝出来，通过mysqlbinlog工具将最近时间段的事件导出，" class="headerlink" title="1.第一步将最新的binlog日志拷贝出来，通过mysqlbinlog工具将最近时间段的事件导出，"></a>1.第一步将最新的binlog日志拷贝出来，通过mysqlbinlog工具将最近时间段的事件导出，</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mysqlbinlog  --base64-output=DECODE-ROWS -v  --start-datetime=<span class="string">'2020-07-22 15:30:00'</span> --stop-datetime=<span class="string">'2020-07-22 15:48:00'</span> --database=<span class="string">'gemini_base'</span> --start-position=749811837   mysql-bin.000047 &gt;&gt; binlog_output.sql</span><br></pre></td></tr></table></figure><h3 id="2-使用grep-过滤出执行误删除操作的事件"><a href="#2-使用grep-过滤出执行误删除操作的事件" class="headerlink" title="2.使用grep 过滤出执行误删除操作的事件"></a>2.使用grep 过滤出执行误删除操作的事件</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep -A21 <span class="string">"DELETE FROM \`gemini_order`.`order_base`"</span> | grep <span class="string">"@"</span> &gt;&gt; row_value</span><br></pre></td></tr></table></figure><h3 id="3-使用正则将提取出值并转成-insert-语句，插入即可"><a href="#3-使用正则将提取出值并转成-insert-语句，插入即可" class="headerlink" title="3. 使用正则将提取出值并转成 insert 语句，插入即可"></a>3. 使用正则将提取出值并转成 insert 语句，插入即可</h3>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;mysqlbinlog-的常用参数，-记一次回滚操作&quot;&gt;&lt;a href=&quot;#mysqlbinlog-的常用参数，-记一次回滚操作&quot; class=&quot;headerlink&quot; title=&quot;mysqlbinlog 的常用参数， 记一次回滚操作&quot;&gt;&lt;/a&gt;mysqlbin
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>mysql 锁的分类</title>

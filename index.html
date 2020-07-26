@@ -121,7 +121,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -153,6 +153,50 @@
 <div class="container body-wrap">
 
     <ul class="post-list">
+    
+        <li class="post-list-item fade">
+            <article id="mysqlbinlog-记一次回滚操作" class="article-card article-type-mysqlbinlog" itemprop="blogPost">
+
+    <div class="post-meta">
+        <time class="post-time" title="2020-07-27 01:07:43" datetime="2020-07-26T17:07:43.000Z" itemprop="datePublished">2020-07-27</time>
+
+        
+
+
+    </div>
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a class="post-title-link" href="/2020/07/27/记一次回滚操作/">mysqlbinlog 的常用参数， 记一次回滚操作</a>
+    </h3>
+  
+
+
+
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        mysqlbinlog 的常用参数， 记一次回滚操作mysqkbinlog 官方文档
+注意:
+不要查看当前正在写入的binlog文件
+不要加–force参数强制访问
+如果binlog格式是行模式的,请加 -vv参数
+
+输出示例12# at 141#200309  9:28:36 server id 123  end_log_pos 245 Query thread_id=3350  exec...
+    
+
+        <a href="/2020/07/27/记一次回滚操作/" class="post-more waves-effect waves-button">
+            Continue reading...
+        </a>
+    </div>
+    
+</article>
+
+        </li>
     
         <li class="post-list-item fade">
             <article id="post-mysql锁" class="article-card article-type-post" itemprop="blogPost">
@@ -191,7 +235,7 @@
     
 
         <a href="/2020/05/25/mysql锁/" class="post-more waves-effect waves-button">
-            阅读全文…
+            Continue reading...
         </a>
     </div>
     
@@ -229,7 +273,7 @@
     
 
         <a href="/2019/11/01/mysql-batch-update-md/" class="post-more waves-effect waves-button">
-            阅读全文…
+            Continue reading...
         </a>
     </div>
     
@@ -270,7 +314,7 @@
     
 
         <a href="/2019/09/22/ssh代理/" class="post-more waves-effect waves-button">
-            阅读全文…
+            Continue reading...
         </a>
     </div>
     
@@ -311,7 +355,7 @@
     
 
         <a href="/2019/08/18/Mysql查询英文如何严格区分大小写/" class="post-more waves-effect waves-button">
-            阅读全文…
+            Continue reading...
         </a>
     </div>
     
@@ -353,7 +397,7 @@ fatal: revert failed
     
 
         <a href="/2019/06/29/git-revert-merge/" class="post-more waves-effect waves-button">
-            阅读全文…
+            Continue reading...
         </a>
     </div>
     
@@ -392,7 +436,7 @@ fatal: revert failed
     
 
         <a href="/2019/06/29/jetBrains-IDE正则搜索替换高级用法/" class="post-more waves-effect waves-button">
-            阅读全文…
+            Continue reading...
         </a>
     </div>
     
@@ -431,7 +475,7 @@ fatal: revert failed
     
 
         <a href="/2019/06/02/golang等待其他goroutine结束/" class="post-more waves-effect waves-button">
-            阅读全文…
+            Continue reading...
         </a>
     </div>
     
@@ -470,7 +514,7 @@ fatal: revert failed
     
 
         <a href="/2019/06/02/golang-匿名函数中使用外部变量/" class="post-more waves-effect waves-button">
-            阅读全文…
+            Continue reading...
         </a>
     </div>
     
@@ -509,45 +553,7 @@ fatal: revert failed
     
 
         <a href="/2019/05/13/mysql 死锁/" class="post-more waves-effect waves-button">
-            阅读全文…
-        </a>
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-mysql-for-update" class="article-card article-type-post" itemprop="blogPost">
-
-    <div class="post-meta">
-        <time class="post-time" title="2019-04-15 22:32:24" datetime="2019-04-15T14:32:24.000Z" itemprop="datePublished">2019-04-15</time>
-
-        
-
-
-    </div>
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a class="post-title-link" href="/2019/04/15/mysql-for-update/">mysql中for update</a>
-    </h3>
-  
-
-
-
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        mysql中for update创建一些数据123456CREATE TABLE account (`id` INT(10),`name` VARCHAR(20),`balance`,BIGINT(20)) ENGINE=InnoDB;INSERT INTO account(`id`, `name`, `balance`)VALUES(1,'user1',100),(2,'user2',20...
-    
-
-        <a href="/2019/04/15/mysql-for-update/" class="post-more waves-effect waves-button">
-            阅读全文…
+            Continue reading...
         </a>
     </div>
     
@@ -584,7 +590,7 @@ fatal: revert failed
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
         </p>
     </div>
     <div class="bottom">
