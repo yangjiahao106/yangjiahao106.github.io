@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-07-26T17:08:05.666Z</updated>
+  <updated>2020-08-31T16:47:19.958Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>go-mod.md</title>
+    <link href="http://yoursite.com/2020/09/01/go-mod/"/>
+    <id>http://yoursite.com/2020/09/01/go-mod/</id>
+    <published>2020-08-31T16:44:48.000Z</published>
+    <updated>2020-08-31T16:47:19.958Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="go-mod-操作"><a href="#go-mod-操作" class="headerlink" title="go mod 操作"></a>go mod 操作</h1><h2 id="GO111MODULE"><a href="#GO111MODULE" class="headerlink" title="GO111MODULE"></a>GO111MODULE</h2><p>环境变量GO111MODULE 有三个值：off, on和auto（默认值）。</p><ol><li><p>GO111MODULE=off，go命令行将不会支持module功能，寻找依赖包的方式将会沿用旧版本那种通过vendor目录或者GOPATH模式来查找。</p></li><li><p>GO111MODULE=on，go命令行会使用modules，而一点也不会去GOPATH目录下查找。</p></li><li><p>GO111MODULE=auto，默认值，go命令行将会根据当前目录来决定是否启用module功能。这种情况下可以分为两种情形：</p><p> 当前目录在GOPATH/src之外且该目录包含go.mod文件<br>当前文件在包含go.mod文件的目录下面。<br>当modules 功能启用时，<strong>依赖包的存放位置变更为 $GOPATH/pkg</strong>，允许同一个package多个版本并存，且多个项目可以共享缓存的 module。</p></li></ol><h2 id="go-mod-命令"><a href="#go-mod-命令" class="headerlink" title="go mod 命令"></a>go mod 命令</h2><p>golang 提供了 go mod命令来管理包。<br>go mod 有以下命令：</p><table><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody><tr><td>init</td><td>initialize new module in current directory（在当前目录初始化mod）</td></tr><tr><td>tidy</td><td>add missing and remove unused modules(拉取缺少的模块，移除不用的模块)</td></tr><tr><td>download</td><td>download modules to local cache(下载依赖包)</td></tr><tr><td>edit</td><td>edit go.mod from tools or scripts（编辑go.mod</td></tr><tr><td>graph</td><td>rint module requirement graph (打印模块依赖图)</td></tr><tr><td>tidy</td><td>add missing and remove unused modules(拉取缺少的模块，移除不用的模块)</td></tr><tr><td>vendor</td><td>make vendored copy of dependencies(将依赖复制到vendor下)</td></tr><tr><td>verify</td><td>verify dependencies have expected content (验证依赖是否正确）</td></tr><tr><td>why</td><td>explain why packages or modules are needed(解释为什么需要依赖)</td></tr></tbody></table><h2 id="go-mod-文件"><a href="#go-mod-文件" class="headerlink" title="go.mod 文件"></a>go.mod 文件</h2><p>go.mod 文件 提供了module, require、replace和exclude 四个命令</p><ul><li>module  语句指定包的名字（路径）</li><li>require 语句指定的依赖项模块</li><li>replace 语句可以替换依赖项模块 使用replace可以替换无法直接获取的package</li><li>exclude 语句可以忽略依赖项模块</li></ul><h2 id="go-sum-文件"><a href="#go-sum-文件" class="headerlink" title="go.sum 文件"></a>go.sum 文件</h2><p>Go 在做依赖管理时会创建两个文件，go.mod 和 go.sum。<br>go.sum 用于实现一下目标</p><p>（1）提供分布式环境下的包管理依赖内容校验</p><p>不像其他包管理机制，Go 采用分布式的方式来管理包。这意味着缺乏一个可供信赖的中心来校验每个包的一致性。</p><p>在主流的包管理机制中，通常存在一个中央仓库来保证每个发布的版本的内容不会被篡改。比如在 pypi 里面，即使发布过的版本存在严重的bug，发布者也不能重新发布一个同样版本，只能发布一个新版本。（但是却可以删掉已发布的版本抑或删掉整个项目，参考当年 npm 的 leftpad 事件，所以主流的包管理机制并非严格意义上的 Append Only。不过这并不影响我的论证）</p><p>而 Go 并没有一个中央仓库。发布者在 GitHub 上给自己的项目打上 0.1 的 tag 之后，依旧可以删掉这个 tag ，提交不同的内容后再重新打个 0.1 的 tag。哪怕发布者都是老实人，发布平台也可能作恶。所以只能在每个项目里存储自己依赖到的所有组件的 checksum，才能保证每个依赖不会被篡改。</p><p>（2）作为 transparent log 来加强安全性</p><p>go.sum 还有一个很特别的地方，就是它不仅仅记录了当前依赖的checksum，还保留了历史上每次依赖的 checksum。这种做法效法了 transparent log 的概念。transparent log 旨在维护一个 Append Only 的日志记录，提高篡改者的作案成本，同时方便审查哪些记录是篡改进来的。根据 Proposal: Secure the Public Go Module Ecosystem 的说法，go.sum 之所以要用 transparent log 的形式记录历史上的每个checksum，是为了便于 sum db 的工作。</p><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><ul><li><a href="https://juejin.im/post/6844903798658301960" target="_blank" rel="noopener">https://juejin.im/post/6844903798658301960</a></li><li><a href="https://studygolang.com/articles/25658" target="_blank" rel="noopener">https://studygolang.com/articles/25658</a></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;go-mod-操作&quot;&gt;&lt;a href=&quot;#go-mod-操作&quot; class=&quot;headerlink&quot; title=&quot;go mod 操作&quot;&gt;&lt;/a&gt;go mod 操作&lt;/h1&gt;&lt;h2 id=&quot;GO111MODULE&quot;&gt;&lt;a href=&quot;#GO111MODULE&quot; c
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>mysqlbinlog 的常用参数， 记一次回滚操作</title>
